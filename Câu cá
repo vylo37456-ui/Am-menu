@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Game Câu Cá Nâng Cấp</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(to bottom, #4fc3f7, #01579b);
+  overflow: hidden;
+}
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+#boat {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 45px;
+  animation: float 2s infinite ease-in-out;
+}
+@keyframes float {
+  0%,100% { transform: translateX(-50%) translateY(0px); }
+  50% { transform: translateX(-50%) translateY(5px); }
+}
+#player {
+  position: absolute;
+  bottom: 170px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+}
+.fish {
+  position: absolute;
+  font-size: 25px;
+}
+#info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  font-size: 16px;
+  background: rgba(0,0,0,0.3);
+  padding: 8px;
+  border-radius: 8px;
+}
+button {
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+#shop {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.3);
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
+</style>
+</head>
+<body>
+<div id="game">  <div id="info"></div>  <div id="shop">
+    <b>Shop</b><br>
+    <button onclick="upgradeRod()">Nâng cần câu</button><br>
+    <button onclick="upgradeBait()">Mồi xịn hơn</button>
+  </div>  <div id="player">🧑</div>
+  <div id="boat">🛶</div>
+  <button style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%)" onclick="catchFish()">Câu cá</button></div><script>
+let level = 1;
+let exp = 0;
+let coins = 0;
+let rodLevel = 1;
+let baitLevel = 1;
+
+const fishList = ["🐟","🐠","🐡","🦈","🐋"];
+
+function updateInfo(){
+  document.getElementById("info").innerHTML =
+    "Level: " + level +
+    "<br>Coins: " + coins +
+    "<br>Cần câu Lv: " + rodLevel +
+    "<br>Mồi Lv: " + baitLevel;
+}
+
+function spawnFish(){
+  const fish = document.createElement("div");
+  fish.className = "fish";
+  fish.innerText = fishList[Math.floor(Math.random()*fishList.length)];
+  fish.style.left = Math.random()*window.innerWidth + "px";
+  fish.style.top = Math.random()*(window.innerHeight-200) + "px";
+  document.getElementById("game").appendChild(fish);
+
+  let move = setInterval(()=>{
+    fish.style.left = (parseFloat(fish.style.left)+Math.random()*4-2)+"px";
+  },200);
+
+  fish.dataset.move = move;
+}
+
+function catchFish(){
+  const fishes = document.querySelectorAll(".fish");
+  if(fishes.length===0) return;
+
+  const chance = 0.4 + rodLevel*0.1 + baitLevel*0.05;
+  const target = fishes[Math.floor(Math.random()*fishes.length)];
+
+  if(Math.random()<chance){
+    clearInterval(target.dataset.move);
+    target.remove();
+
+    coins += 1 + baitLevel;
+    exp++;
+
+    if(exp>=5){
+      level++;
+      exp=0;
+    }
+  }
+
+  updateInfo();
+}
+
+function upgradeRod(){
+  if(coins >= rodLevel*5){
+    coins -= rodLevel*5;
+    rodLevel++;
+  } else alert("Không đủ xu!");
+  updateInfo();
+}
+
+function upgradeBait(){
+  if(coins >= baitLevel*4){
+    coins -= baitLevel*4;
+    baitLevel++;
+  } else alert("Không đủ xu!");
+  updateInfo();
+}
+
+setInterval(spawnFish,1200);
+updateInfo();
+</script></body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Game Câu Cá</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(to bottom, #4fc3f7, #01579b);
+  overflow: hidden;
+}
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+#boat {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+}
+#player {
+  position: absolute;
+  bottom: 170px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+}
+.fish {
+  position: absolute;
+  font-size: 25px;
+}
+#info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  font-size: 18px;
+}
+button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+<div id="game">
+  <div id="info">Level: 1 | Cá bắt được: 0</div>
+  <div id="player">🧑</div>
+  <div id="boat">🛶</div>
+  <button onclick="catchFish()">Câu cá</button>
+</div>
+
+<script>
+let level = 1;
+let score = 0;
+
+const fishList = ["🐟", "🐠", "🐡", "🦈"];
+
+function spawnFish() {
+  const fish = document.createElement("div");
+  fish.className = "fish";
+  fish.innerText = fishList[Math.floor(Math.random() * fishList.length)];
+  fish.style.left = Math.random() * window.innerWidth + "px";
+  fish.style.top = Math.random() * (window.innerHeight - 200) + "px";
+  document.getElementById("game").appendChild(fish);
+
+  let move = setInterval(() => {
+    let x = parseFloat(fish.style.left);
+    fish.style.left = (x + (Math.random() * 4 - 2)) + "px";
+  }, 200);
+
+  fish.dataset.move = move;
+}
+
+function catchFish() {
+  const fishes = document.querySelectorAll(".fish");
+  if (fishes.length === 0) return;
+
+  const target = fishes[Math.floor(Math.random() * fishes.length)];
+  clearInterval(target.dataset.move);
+  target.remove();
+
+  score++;
+
+  if (score % 5 === 0) level++;
+
+  document.getElementById("info").innerText =
+    "Level: " + level + " | Cá bắt được: " + score;
+}
+
+setInterval(spawnFish, 1500);
+</script>
+</body>
+</html>
