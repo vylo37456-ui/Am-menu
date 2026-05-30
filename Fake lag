@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake Lag 10 Giây</title>
+</head>
+<body>
+    <button onclick="fakeLag()">Gửi dữ liệu</button>
+    <p id="status"></p>
+
+    <script>
+        function fakeLag() {
+            document.getElementById("status").innerText = "Đang gửi...";
+
+            setTimeout(() => {
+                document.getElementById("status").innerText =
+                    "Đã gửi sau 10 giây";
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
