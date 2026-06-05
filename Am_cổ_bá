@@ -1,0 +1,36 @@
+let mucTieu = {
+    ten: "Đối thủ",
+    x: 100,
+    y: 200,
+    khoa: false,
+    // Offset các vùng cơ thể
+    dauY: -30,   // đầu (trên cổ)
+    coY: -10,    // cổ
+    nguoiY: 0    // thân người (mặc định)
+};
+
+// Lấy tọa độ cổ
+function layToaDoCo(target) {
+    return {
+        x: target.x,
+        y: target.y + target.coY  // aim vào cổ
+    };
+}
+
+// Smooth kéo lên đầu nhẹ
+function smoothLenDau(target, tocDo = 0.1) {
+    let co = layToaDoCo(target);
+    let dauX = target.x;
+    let dauY = target.y + target.dauY;
+
+    // Nội suy nhẹ từ cổ lên đầu
+    let currentY = co.y;
+    currentY += (dauY - currentY) * tocDo;
+
+    console.log("Tọa độ aim:", dauX, currentY);
+    return { x: dauX, y: currentY };
+}
+
+hienThiMucTieu(mucTieu);
+khoaMucTieu(mucTieu);
+smoothLenDau(mucTieu, 0.5);
