@@ -1,0 +1,104 @@
+gg.setVisible(false)
+gg.clearResults()
+
+local function showMenu()
+    local choice = gg.choice({
+        "🔰 CHE DO AN TOAN + AIMLOCK",
+        "⚡ GIAM GIAT + TANG CHINH XAC",
+        "👁️ ESP (NHIN XUYEN TUONG)",
+        "❤️ BAT TU (MAU KHONG GIAM)",
+        "🏃 TANG TOC DO DI CHUYEN",
+        "🔫 AUTO FIRE (TU DONG BAN)",
+        "💨 TANG TOC DO DAN",
+        "🔴 TAT TAT CA",
+        "❌ THOAT"
+    }, nil, "🔥 FF VIP ANTI BAN 🔥")
+    return choice
+end
+
+local function antiBan()
+    gg.searchNumber('0.5', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('0.01', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.searchNumber('1.0', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('0.05', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.toast("✅ DA BAT CHE DO AN TOAN + AIMLOCK")
+end
+
+local function noRecoil()
+    gg.searchNumber('1.0', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('0.0', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.searchNumber('0.5', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('0.0', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.toast("✅ DA GIAM GIAT + TANG CHINH XAC")
+end
+
+local function esp()
+    gg.searchNumber('200.0', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('99999', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.toast("✅ DA BAT ESP")
+end
+
+local function godMode()
+    gg.searchNumber('100.0', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('99999', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.searchNumber('1.0', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('9999', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.toast("✅ DA BAT BAT TU")
+end
+
+local function speed()
+    gg.searchNumber('1.0;1.0;1.0::30', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    local r = gg.getResults(15)
+    if r then
+        for i = 1, #r do
+            r[i].value = 3.0
+        end
+        gg.setValues(r)
+    end
+    gg.clearResults()
+    gg.toast("✅ DA TANG TOC DO")
+end
+
+local function autoFire()
+    gg.searchNumber('1.0;0.5;1.0::50', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    local r = gg.getResults(20)
+    if r then
+        for i = 1, #r do
+            r[i].value = 0.001
+        end
+        gg.setValues(r)
+    end
+    gg.clearResults()
+    gg.toast("✅ DA BAT AUTO FIRE")
+end
+
+local function bulletSpeed()
+    gg.searchNumber('100.0', gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    gg.editAll('999', gg.TYPE_FLOAT)
+    gg.clearResults()
+    gg.toast("✅ DA TANG TOC DO DAN")
+end
+
+local function resetAll()
+    gg.clearResults()
+    gg.toast("❌ DA TAT. RESTART GAME")
+end
+
+local choice = showMenu()
+if choice == 1 then antiBan()
+elseif choice == 2 then noRecoil()
+elseif choice == 3 then esp()
+elseif choice == 4 then godMode()
+elseif choice == 5 then speed()
+elseif choice == 6 then autoFire()
+elseif choice == 7 then bulletSpeed()
+elseif choice == 8 then resetAll()
+elseif choice == 9 then gg.toast("❌ DA THOAT")
+end
